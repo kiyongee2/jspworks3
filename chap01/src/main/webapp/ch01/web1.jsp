@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -12,12 +13,13 @@
 	<%
 	    LocalDateTime now = LocalDateTime.now();
 	
-		DateTimeFormatter datetime = DateTimeFormatter.ofPattern("yyyy-mm-dd a hh:mm:ss");
+		DateTimeFormatter datetime 
+			= DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
 		//out.println(now.format(datetime));
 		String current_time = now.format(datetime);
 	%>
 	
-	<h2>현재 날짜와 시간은 <%=LocalDateTime.now() %></h2>
+	<%-- <h2>현재 날짜와 시간은 <%=LocalDateTime.now() %></h2> --%>
 	<h2>현재 날짜와 시간은 <%=current_time %></h2>
 </body>
 </html>
