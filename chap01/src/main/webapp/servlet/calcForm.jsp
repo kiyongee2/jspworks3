@@ -11,7 +11,7 @@
 	<div id="container">
 		<h2>계산기</h2>
 		<hr>
-		<form action="result.jsp" method="post">
+		<form action="/servlet/calc" method="post">
 			<input type="text" name="num1">
 			<select name="op">
 				<option>+</option>
@@ -20,6 +20,7 @@
 				<option>/</option>
 			</select>
 			<input type="text" name="num2">
+			
 			<input type="submit" value="계산">
 			<input type="reset" value="다시입력">
 		</form>

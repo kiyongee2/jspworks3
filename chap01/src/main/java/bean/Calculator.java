@@ -55,9 +55,4 @@ public class Calculator implements Serializable{
 	public void setResult(int result) {
 		this.result = result;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 }

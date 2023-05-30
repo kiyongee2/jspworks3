@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/login2" method="post">
+	<form action="/login" method="post">
 		<p>
 			<label for="userid">아이디: </label>
 			<input type="text" name="userid" id="userid">

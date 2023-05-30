@@ -28,9 +28,8 @@ public class HelloServlet2 extends HttpServlet {
 		
 		//int cnt = Integer.parseInt(request.getParameter("cnt"));
 		int cnt = 0;
-		String param = request.getParameter("cnt");
-		if(param != null) {
-			cnt = Integer.parseInt(param);
+		if(request.getParameter("cnt") != null) {
+			cnt = Integer.parseInt(request.getParameter("cnt"));
 		}
 		
 		for(int i=0; i<cnt; i++) {
