@@ -11,7 +11,7 @@
 	<div id="container">
 		<h2>계산기</h2>
 		<hr>
-		<form action="/servlet/calc" method="get">
+		<form action="/servlet/calc2" method="get">
 			<input type="text" name="num1">
 			<select name="op">
 				<option>+</option>

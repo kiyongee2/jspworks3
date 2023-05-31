@@ -9,15 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/servlet/calc")
-public class CalcServlet extends HttpServlet {
+@WebServlet("/servlet/calc2")
+public class CalcServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 20L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		service(request, response);
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		service(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//폼 데이터 가져옴
 		int num1 = Integer.parseInt(request.getParameter("num1"));
 	    int num2 = Integer.parseInt(request.getParameter("num2"));
@@ -48,5 +52,6 @@ public class CalcServlet extends HttpServlet {
 	       .append("<h2>계산기</h2><hr>")
 	       .append("<p>계산 결과: " + result + "</p></div>");
 	}
+	
 	
 }
