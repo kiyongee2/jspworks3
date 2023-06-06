@@ -20,7 +20,8 @@
 		<table id="tbl_view">
 			<tr>
 				<td>이름</td>
-				<td><input type="text" name="username" value="<%= aB.getUsername() %>"></td>
+				<td><input type="text" name="username" 
+							value="<%= aB.getUsername() %>"></td>
 			</tr>
 			<tr>
 				<td>전화번호</td>
@@ -35,7 +36,7 @@
 				<td><input type="text" name="email" value="<%= aB.getGender() %>"></td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<a href="addrList.jsp"><button type="button">목록</button></a>
 				</td>
 			</tr>

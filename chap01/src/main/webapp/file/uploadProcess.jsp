@@ -16,16 +16,18 @@
 		String value = multi.getParameter(name);
 		out.println(name + ", " + value + "<br>");
 	}
-	out.println("========================================");
+	out.println("========================================<br>");
 	
 	//요청 파라미터중 file name 가져옴
 	Enumeration<String> files = multi.getFileNames();
 	while(files.hasMoreElements()){
 		String name = files.nextElement();
 		String fileName = multi.getFilesystemName(name);
+		String originName = multi.getOriginalFileName(name);
 		
 		out.println("요청 파라미터 이름: " + name + "<br>");
 		out.println("업로드된 파일 이름: " + fileName + "<br>");
+		out.println("원본 파일 이름: " + originName + "<br>");
 	
 
 %>

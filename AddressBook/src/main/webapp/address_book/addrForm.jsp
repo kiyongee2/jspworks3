@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div id="container">
-		<h2>주소록 등록</h2>
+		<h2>주소록 등록(메인 페이지)</h2>
 		<hr>
 		<form action="addrAdd.jsp" method="post">
 			<table id="tbl_reg">

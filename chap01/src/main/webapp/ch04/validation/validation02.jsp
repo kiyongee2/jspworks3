@@ -15,8 +15,8 @@
 			alert("아이디를 입력해 주세요");
 			userid.focus();
 			return false;
-		}else if(passwd.value == ""){
-			alert("비밀번호를 입력해 주세요");
+		}else if(passwd.value.length < 5){
+			alert("비밀번호는 5자 이상 입력 가능합니다.");
 			passwd.focus();
 			return false;
 		}else{
