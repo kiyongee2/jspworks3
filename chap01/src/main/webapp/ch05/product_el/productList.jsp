@@ -10,7 +10,7 @@
 	select{padding: 5px;}
 </style>
 </head>
-<jsp:useBean id="product" class="mvc.Product" scope="session" />
+<jsp:useBean id="product" class="mvc.Product" />
 <body>
 	<div id="container">
 		<h2>상품 목록</h2>

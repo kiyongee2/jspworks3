@@ -9,7 +9,7 @@
 	#container{width: 80%; margin:30px auto; text-align: center}
 </style>
 </head>
-<jsp:useBean id="product" class="mvc.Product" scope="session" />
+<jsp:useBean id="product" class="mvc.Product" />
 <body>
 	<div id="container">
 		<h2>상품 선택</h2>

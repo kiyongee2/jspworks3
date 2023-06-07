@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,31 +15,23 @@
 		padding: 5px;}
 </style>
 </head>
+<jsp:useBean id="member" class="bean.Member" />
+<jsp:setProperty property="id" name="member"/>
+<jsp:setProperty property="passwd" name="member"/>
+<jsp:setProperty property="name" name="member"/>
 <body>
 	<div id= "container">
-		<h2>회원 가입</h2>
-		<form action="member02_process_el.jsp" method="post">
-			<table>
-				<tr>
-					<td>아이디</td>
-					<td><input type="text" name="id"></td>
-				</tr>
-				<tr>
-					<td>비밀번호</td>
-					<td><input type="password" name="passwd"></td>
-				</tr>
-				<tr>
-					<td>이름</td>
-					<td><input type="text" name="name"></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<input type="submit" value="가입">
-						<input type="reset" value="취소">
-					</td>
-				</tr>
-			</table>
-		</form>
+		<h2>회원 정보</h2>
+		<table>
+			<tr>
+				<td>아이디</td><td>비밀번호</td><td>이름</td>
+			</tr>
+			<tr>
+				<td>${member.id}</td>
+				<td>${member.passwd}</td>
+				<td>${member.name}</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>

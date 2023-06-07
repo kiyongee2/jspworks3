@@ -32,7 +32,7 @@ public class CalcServlet extends HttpServlet{
 		request.setAttribute("result", result);
 		
 		//포워딩
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/mvc/calc.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("calc.jsp");
 		dispatcher.forward(request, response);
 	}
 

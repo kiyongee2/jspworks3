@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>짝수/홀수 판정 결과</title>
 </head>
 <body>
-	<p>결과: ${result}</p>
+	<p>결과: ${result}입니다.</p>
 </body>
 </html>
