@@ -11,6 +11,7 @@ header{height: 100px; background: #0077cc;}
 #logo{float: left; width: 20%; height: 100px; line-height: 100px; text-align: left;}
 #logo h1 a{color: #eee; padding-left: 15px; font-size: 1.3em; font-style: italic;}
 nav{float: right; width: 70%; height: 100px;}
+
 /* 주메뉴 */
 #topMenu{height: 100px; line-height: 100px;}
 #topMenu li{float: left; margin: 0 20px;}

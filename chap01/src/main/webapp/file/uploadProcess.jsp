@@ -1,3 +1,4 @@
+<%@page import="java.io.File"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
@@ -24,11 +25,16 @@
 		String name = files.nextElement();
 		String fileName = multi.getFilesystemName(name);
 		String originName = multi.getOriginalFileName(name);
+		String type = multi.getContentType(name);
+		File file = multi.getFile(name);
 		
 		out.println("요청 파라미터 이름: " + name + "<br>");
 		out.println("업로드된 파일 이름: " + fileName + "<br>");
 		out.println("원본 파일 이름: " + originName + "<br>");
-	
+		out.println("파일 컨텐츠 유형: " + type + "<br>");
+		
+		if(file != null)
+			out.println("파일 크기: " + file.length() + "B");
 
 %>
 <p>이미지 보기</p>

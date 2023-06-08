@@ -6,13 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	table{border: 1px solid #ccc; padding: 10px 0px 10px 20px;}
+	table td{width: 100px;}
+</style>
 </head>
 <body>
 	<table>
 		<c:forEach var="i" begin="1" end="9">
 		<tr>
 			<c:forEach var="j" begin="2" end="9">
-				<td width="100">${j} x ${i} = ${i*j} <br></td>
+				<td> <c:out value="${j} x ${i} = ${i*j}" /><br></td>
 			</c:forEach>
 		</tr>
 		</c:forEach>
