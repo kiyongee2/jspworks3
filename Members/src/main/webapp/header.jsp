@@ -11,16 +11,16 @@
 			<ul id="topMenu">
 				<li><a href="/memberForm.do">회원가입</a></li>
 				<li><a href="/memberList.do">회원목록</a></li>
-				<li><a href="">게시판</a></li>
+				<li><a href="/boardList.do">게시판</a></li>
 				<li><a href="/loginForm.do">로그인</a></li>
 			</ul>
 		</c:when>
 		<c:otherwise>
 			<ul id="topMenu">
-				<li><a href="memberForm.do">회원가입</a></li>
-				<li><a href="memberList.do">회원목록</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="logout.do">[${sessionId}님]로그아웃</a></li>
+				<li><a href="/memberForm.do">회원가입</a></li>
+				<li><a href="/memberList.do">회원목록</a></li>
+				<li><a href="/boardList.do">게시판</a></li>
+				<li><a href="/logout.do">[${sessionId}님]로그아웃</a></li>
 			</ul>
 		</c:otherwise>
 	</c:choose>

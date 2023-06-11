@@ -6,13 +6,14 @@
 <meta charset="UTF-8">
 <title>회원 가입</title>
 <link rel="stylesheet" href="resources/css/style.css">
+<script type="text/javascript" src="resources/js/validation.js"></script>
 </head>
 <body>
 	<jsp:include page="../header.jsp" />
 	<div id= "container">
 	    <section id="register">
 		<h2>회원 가입</h2>
-		<form action="addMember.do" method="post">
+		<form action="/addMember.do" method="post" name="memberForm">
             <fieldset>
                 <ul>
                     <li>
@@ -43,7 +44,7 @@
                 </ul>
             </fieldset>
             <div class="button">
-                <input type="submit" value="가입">
+                <input type="button" value="가입" onclick="checkMember()">
                 <input type="reset" value="취소">
             </div>
           </form>

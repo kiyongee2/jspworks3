@@ -10,17 +10,20 @@
 <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
-	<c:if test="${empty sessionId}">
+	<%-- <c:if test="${empty sessionId}">
 		<script>
 			alert("로그인이 필요합니다.");
 			location.href = "/loginForm.do";
 		</script>
-	</c:if>
+	</c:if> --%>
 	<jsp:include page="../header.jsp" />
 	<div id="container">
 		<section id="memberlist">
 			<h2>회원 목록</h2>
-			<table id="tbl_list">
+			<div class="logout">
+				<p><a href="/logout.do">[관리자 로그아웃]</a>
+			</div>
+			<table>
 				<thead>
 					<tr>
 						<th>아이디</th><th>비밀번호</th><th>이름</th><th>성별</th><th>가입일</th>
@@ -29,8 +32,7 @@
 				<tbody>
 					<c:forEach var="member" items="${memberList}">
 					<tr>
-						<!-- memberView 앞에 '/' 생략 -->
-						<td><a href="memberView.do?memberId=${member.memberId}">
+						<td><a href="/memberView.do?memberId=${member.memberId}">
 								<c:out value="${member.memberId}" /></a></td>
 						<td><c:out value="${member.passwd}" /></td>
 						<td><c:out value="${member.name}" /></td>

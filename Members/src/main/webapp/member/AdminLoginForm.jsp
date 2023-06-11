@@ -11,17 +11,27 @@
 	<jsp:include page="../header.jsp" />
 	<div id= "container">
 		<section id="login">
-		<h2>로그인</h2>
-		<form action="/loginProcess.do" method="post">
+		<h2>관리자 로그인</h2>
+		<form action="j_security_check" method="post">
+			<%
+				String error = request.getParameter("error");
+				if(error != null){
+					out.println("<div class='error'>");
+					out.println("아이디와 비밀번호를 확인해 주세요");
+					out.println("</div>");
+				}
+			%>
             <fieldset>
                 <ul>
                     <li>
                         <label>아이디</label>
-                        <input type="text" name="memberId">
+                        <input type="text" name="j_username" placeholder="ID" 
+                        		required autofocus>
                     </li>
                     <li>
                         <label>비밀번호</label>
-                        <input type="password" name="passwd">
+                        <input type="password" name="j_password"
+                        		placeholder="PASSWORD" required>
                     </li>
                 </ul>
             </fieldset>
