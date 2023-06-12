@@ -26,7 +26,12 @@
 			<table>
 				<thead>
 					<tr>
-						<th>아이디</th><th>비밀번호</th><th>이름</th><th>성별</th><th>가입일</th>
+						<th>아이디</th>
+						<th>비밀번호</th>
+						<th>이름</th>
+						<th>성별</th>
+						<th>가입일</th>
+						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,6 +45,12 @@
 						<%-- <td><c:out value="${member.joinDate}" /></td> --%>
 						<td><fmt:formatDate value="${member.joinDate}" 
 							pattern="yyyy-MM-dd hh:mm:ss" /></td>
+						<td>
+							<a href="/memberDelete.do?memberId=${member.memberId}"
+							   onclick="return confirm('정말로 삭제하시겠습니까?')">
+								<button type="button">삭제</button>
+							</a>
+						</td>
 					</tr>
 					</c:forEach>
 				</tbody>

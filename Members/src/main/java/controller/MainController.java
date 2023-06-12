@@ -59,9 +59,9 @@ public class MainController extends HttpServlet {
 			ArrayList<Member> memberList = memberDAO.getMemberList();
 			
 			request.setAttribute("memberList", memberList);
-			nextPage = "member/memberList.jsp";
+			nextPage = "/member/memberList.jsp";
 		}else if(command.equals("/memberForm.do")) {
-			nextPage = "member/memberForm.jsp";
+			nextPage = "/member/memberForm.jsp";
 		}else if(command.equals("/addMember.do")) {
 			//폼 데이터 받기
 			String memberId = request.getParameter("memberId");
@@ -88,9 +88,9 @@ public class MainController extends HttpServlet {
 			
 			request.setAttribute("member", member);
 			
-			nextPage = "member/memberView.jsp";
+			nextPage = "/member/memberView.jsp";
 		}else if(command.equals("/loginForm.do")) {
-			nextPage = "member/loginForm.jsp";
+			nextPage = "/member/loginForm.jsp";
 		}else if(command.equals("/loginProcess.do")) {
 			//폼 데이터 받기
 			String memberId = request.getParameter("memberId");
@@ -103,7 +103,7 @@ public class MainController extends HttpServlet {
 			boolean result = memberDAO.checkLogin(loginMember);
 			if(result) {
 				session.setAttribute("sessionId", memberId); //세션 발급
-				nextPage = "index.jsp";
+				nextPage = "/index.jsp";
 			}else {
 				out.println("<script>");
 				out.println("alert('아이디나 비밀번호를 확인해주세요')");
@@ -112,7 +112,13 @@ public class MainController extends HttpServlet {
 			}
 		}else if(command.equals("/logout.do")) {
 			session.invalidate();
-			nextPage = "index.jsp";
+			nextPage = "/index.jsp";
+		}else if(command.equals("/memberDelete.do")) {
+			String memberId = request.getParameter("memberId");
+			
+			memberDAO.deleteMember(memberId);  //회원 삭제
+			
+			nextPage = "/memberList.do";
 		}
 		
 		//게시글 목록
