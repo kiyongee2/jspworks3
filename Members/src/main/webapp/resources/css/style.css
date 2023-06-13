@@ -55,6 +55,9 @@ footer{height: 80px; border-top: 2px solid #222;}
 #memberlist table thead{background: #eee;}
 #memberlist table td:nth-of-type(1){text-align: left; padding-left: 10px;}
 #memberlist table td:nth-of-type(2){text-align: left; padding-left: 10px;}
+#memberlist table td:nth-of-type(6){width: 60px;}
+#memberlist h3{margin-top: 50px;}
+#memberlist .banner img{margin-top: 20px;}
 
 /* detail 스타일 */
 #detail{width: 400px; margin: 30px auto 100px;}
@@ -75,6 +78,14 @@ footer{height: 80px; border-top: 2px solid #222;}
 #login form input[type='text'], input[type='password']{width: 200px; height: 30px;}
 #login form input[type='submit']{padding: 10px 15px; margin-top: 10px;}
 #login .error{color: #f00; margin-bottom: 10px;}
+
+/* memberEvent 스타일 */
+#memberEvent{width: 80%; margin: 40px auto 100px; text-align: center}
+#memberEvent .banner{margin: 30px auto;}
+#memberEvent button{padding: 10px 20px; font-size: 1em;}
+#memberEvent #display{width: 320px; height: 100px; margin: 20px auto;
+	border: 1px solid #ccc; padding-top: 60px; letter-spacing: 1px;
+	background: #80ffff;}
 
 /* boardList 스타일 */
 #boardlist{width: 550px; margin: 40px auto 100px;}
@@ -102,6 +113,7 @@ footer{height: 80px; border-top: 2px solid #222;}
 #board_detail table{width: 550px; margin: 30px auto; border-collapse: collapse;}
 #board_detail table input[type='text']{width: 520px; height: 25px; padding: 5px;}
 #board_detail table tr:nth-of-type(3) td{text-align: left; padding-left: 10px;}
+#board_detail table tr:nth-of-type(4) td{text-align: left; padding-left: 10px;}
 #board_detail table textarea{width: 520px; height: 350px; resize: none; padding: 5px;
     line-height: 1.5; font-family: '맑은고딕'}
 #board_detail table button[type='button']{width: 80px; height: 30px;}

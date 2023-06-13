@@ -119,6 +119,8 @@ public class MainController extends HttpServlet {
 			memberDAO.deleteMember(memberId);  //회원 삭제
 			
 			nextPage = "/memberList.do";
+		}else if(command.equals("/memberEvent.do")) {
+			nextPage = "/member/memberEvent.jsp";
 		}
 		
 		//게시글 목록
@@ -129,7 +131,6 @@ public class MainController extends HttpServlet {
 		}else if(command.equals("/boardForm.do")) {  //글쓰기 폼
 			nextPage = "board/boardForm.jsp";
 		}else if(command.equals("/addBoard.do")) {
-			
 			String realFolder = "C:/Users/kiyon/git/jspworks3/Members/src/main/webapp/upload";
 
 			MultipartRequest multi = new MultipartRequest(request, realFolder, 5*1024*1024,
@@ -158,19 +159,14 @@ public class MainController extends HttpServlet {
 			boardDAO.addBoard(newBoard);  //게시글 추가
 			
 		}else if(command.equals("/boardView.do")) {  
-			
 			int bnum = Integer.parseInt(request.getParameter("bnum"));
-			
 			Board board = boardDAO.getBoard(bnum); //상세 보기
 			
 			request.setAttribute("board", board);  //모델 생성
-			
 			nextPage = "board/boardView.jsp";
-			
 		}else if(command.equals("/boardDelete.do")) {
 			
 			int bnum = Integer.parseInt(request.getParameter("bnum"));
-			
 			boardDAO.boardDelete(bnum);  //게시글 삭제
 			
 		}else if(command.equals("/boardUpdate.do")) { //수정 페이지 요청

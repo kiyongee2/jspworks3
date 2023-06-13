@@ -76,6 +76,7 @@ public class BoardDAO {
 				board.setHit(rs.getInt("hit"));
 				board.setMemberId(rs.getString("memberid"));
 				board.setModifyDate(rs.getTimestamp("modifydate")); 
+				board.setFileUpload(rs.getString("fileupload"));
 				
 				int hit = rs.getInt("hit") + 1;  //조회수 증가
 				

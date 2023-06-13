@@ -40,6 +40,9 @@
             				</td>
             			</tr>
             			<tr>
+            				<td><c:out value="조회수: ${board.hit}" /></td>
+            			</tr>
+            			<tr>
                            <td>
                            	   <c:if test="${board.memberId == sessionId }">
                                  <a href="/boardUpdate.do?bnum=<c:out value='${board.bnum}'/>">

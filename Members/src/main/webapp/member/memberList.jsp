@@ -55,6 +55,13 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			
+			<h3>이벤트 추첨 링크</h3>
+			<div class="banner">
+				<a href="/memberEvent.do">
+					<img src="../resources/images/bronx.png" alt="한식뷔페">
+				</a>
+			</div>
 		</section>
 	</div>
 </body>
