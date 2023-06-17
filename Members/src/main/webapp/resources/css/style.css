@@ -32,18 +32,19 @@ footer{height: 80px; border-top: 2px solid #222;}
 #bottomMenu li:last-child{border: none;}
 
 /* register 스타일 */
-#register{width: 400px; margin: 30px auto 100px;}
+#register{width: 530px; margin: 30px auto;}
 #register form{margin: 30px auto;}
 #register form fieldset{padding-bottom: 20px;}
 #register form ul li{margin: 30px 20px;}
 #register form label{width: 120px; float: left; padding-left: 10px;
     margin-right: 10px;}
-#register form input[type='text']{width: 210px; height: 25px}
-#register form input[type='password']{width: 210px; height: 25px}
+#register form input[type='text']{padding: 5px; width: 250px; font-size: 0.8em;}
+#register form input[type='password']{width: 250px; font-size: 0.8em;}
 #register form li label.radio{width: 50px; }
-#register form .button{width: 400px; height: 50px; text-align: center;}
-#register form input[type='button']{width: 80px; height: 30px; margin-top: 30px;}
-#register form input[type='reset']{width: 80px; height: 30px; margin-top: 30px;}
+#register form .button{width: 530px; height: 50px; text-align: center;}
+#register form input[type='button']{width: 100px; height: 40px; margin-top: 30px;}
+#register form input[type='reset']{width: 100px; height: 40px; margin-top: 30px;}
+#register .btn_check{padding: 5px; margin-left: 5px;}
 
 /* memberlist 스타일 */
 #memberlist{width: 550px; margin: 40px auto 100px;}
