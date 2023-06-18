@@ -11,11 +11,13 @@
 <script type="text/javascript">
 	function checkID(){
 		//alert('test');
+		//ID 중복 확인
 		let memberId = $("#memberId").val();
 		if(memberId == ""){
 			alert("아이디를 입력해주세요");
 			return false;
 		}
+		//ajax 실행
 		$.ajax({
 			type: "post",
 			url: "checkid",
@@ -50,7 +52,8 @@
 						<label for="memberId">아이디 </label>
 						<input type="text" id="memberId" name="memberId"
 							placeholder="아이디는 4~15자까지 입력 가능합니다.">
-						<button type="button" onclick="checkID()" class="btn_check">ID 중복</button>
+						<button type="button" id="btnChk" value="N" 
+								class="btn_check" onclick="checkID()" >ID 중복</button>
 						<p id="check"></p>
 					</li>
 					<li>

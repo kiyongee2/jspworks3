@@ -7,6 +7,7 @@ function checkMember(){
 	let pw1 = form.passwd1.value;
 	let pw2 = form.passwd2.value;
 	let name = form.name.value;
+	let btnChk = form.btnChk.value;
 	
 	//정규 표현식
 	let pw_pat1 = /[0-9]+/   //숫자만
@@ -14,7 +15,6 @@ function checkMember(){
 	let pw_pat3 = /[~!@#$%^&*()_=]+/   //특수문자만
 	
 	//이름은 영문자와 한글만 입력되도록 처리
-	
 	if(id.length < 4 || id.length > 15){
 		alert("아이디는 4~15자까지 입력 가능합니다.");
 		form.memberId.select();
@@ -32,8 +32,10 @@ function checkMember(){
 		alert("이름을 입력해 주세요");
 		form.name.focus();
 		return false;
-	}
-	else{
+	}else if(btnChk == 'N'){
+		alert("ID 중복을 확인 해주세요");
+		return false;
+	}else{
 	    form.submit();
 	}
 }

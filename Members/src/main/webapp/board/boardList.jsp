@@ -37,6 +37,34 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			<!-- 페이지 처리 영역 -->
+			<div class="pagination">
+				<%-- <p>총 게시글 수:${total}</p> --%>
+				<!-- 시작 페이지가 1보다 작으면 시작 페이지로 설정 -->
+			    <c:if test="${startPage > 1}">
+					<a href="/boardList.do?pageNum=${startPage-1}">이전</a>
+				</c:if>
+			    <c:if test="${startPage <= 1}">
+					<a href="/boardList.do?pageNum=${startPage}">이전</a>
+				</c:if>
+				<c:forEach var="i" begin="1" end="${endPage}">
+					<!-- 현재 페이지가 i와 같으면 활성화(굵게) -->
+				    <c:if test="${currentPage == i}">
+						<a href="/boardList.do?pageNum=${i}"><span class='page'>${i}</span></a>
+					</c:if>
+				    <c:if test="${currentPage != i}">
+						<a href="/boardList.do?pageNum=${i}">${i}</a>
+					</c:if>
+				</c:forEach>
+				<!-- 마지막 페이지가 시작 페이지보다 작으면 마지막 페이지로 설정 -->
+				<c:if test="${endPage > startPage}">
+					<a href="/boardList.do?pageNum=${startPage+1}">다음</a>
+				</c:if>
+				<c:if test="${endPage <= startPage}">
+					<a href="/boardList.do?pageNum=${endPage }">다음</a>
+				</c:if>
+			</div>
+			<!-- 페이지 영역 끝 -->
 			<div class="btnWrite">
                 <a href="/boardForm.do">
                     <button type="button">글쓰기</button>

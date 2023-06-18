@@ -15,7 +15,55 @@ public class BoardDAO {
 	private ResultSet rs = null;
 	
 	//게시글 목록
-	public ArrayList<Board> getBoardList(){
+	public ArrayList<Board> getBoardList(int startRow, int page){
+		ArrayList<Board> boardList = new ArrayList<>();
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "SELECT *"
+					+ "FROM (SELECT ROWNUM rn, t_board.* FROM t_board ORDER BY bnum DESC) "
+					+ "WHERE rn >= ? AND rn <= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, page*10);  //페이지당 게시글 수
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Board board = new Board();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setContent(rs.getString("content"));
+				board.setRegDate(rs.getTimestamp("regdate"));
+				board.setHit(rs.getInt("hit"));
+				board.setMemberId(rs.getString("memberid"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt, rs);
+		}
+		return boardList;
+	}
+	
+	//게시글 총 개수
+	public int getBoardCount() {
+		int total = 0;
+		try {
+			conn= JDBCUtil.getConnection();
+			String sql = "SELECT COUNT(*) AS total FROM t_board";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				total = rs.getInt("total");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt, rs);
+		}
+		return total;
+	}
+	
+	/*public ArrayList<Board> getBoardList(){
 		ArrayList<Board> boardList = new ArrayList<>();
 		conn = JDBCUtil.getConnection();
 		String sql = "SELECT * FROM t_board ORDER BY regdate DESC";
@@ -38,7 +86,7 @@ public class BoardDAO {
 			JDBCUtil.close(conn, pstmt, rs);
 		}
 		return boardList;
-	}
+	}*/
 	
 	//글쓰기
 	public void addBoard(Board board) {

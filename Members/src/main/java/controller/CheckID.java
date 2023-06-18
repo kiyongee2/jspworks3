@@ -23,10 +23,10 @@ public class CheckID extends HttpServlet {
 		String id = request.getParameter("id");
 		
 		MemberDAO dao = new MemberDAO();
-		boolean duplicatedID = dao.duplicatedID(id);
+		int duplicatedID = dao.duplicatedID(id);
 		System.out.println(duplicatedID);
 		
-		if(duplicatedID==true) {
+		if(duplicatedID==1) {
 			out.println("not_usable");
 		}else{
 			out.println("usable");
