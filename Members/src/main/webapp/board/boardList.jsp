@@ -45,7 +45,7 @@
 					<a href="/boardList.do?pageNum=${startPage-1}">이전</a>
 				</c:if>
 			    <c:if test="${startPage <= 1}">
-					<a href="/boardList.do?pageNum=${startPage}">이전</a>
+					<a href="">이전</a>
 				</c:if>
 				<c:forEach var="i" begin="1" end="${endPage}">
 					<!-- 현재 페이지가 i와 같으면 활성화(굵게) -->
@@ -61,7 +61,7 @@
 					<a href="/boardList.do?pageNum=${startPage+1}">다음</a>
 				</c:if>
 				<c:if test="${endPage <= startPage}">
-					<a href="/boardList.do?pageNum=${endPage }">다음</a>
+					<a href="">다음</a>
 				</c:if>
 			</div>
 			<!-- 페이지 영역 끝 -->

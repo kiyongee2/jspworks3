@@ -14,8 +14,8 @@ public class BoardDAO {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	//게시글 목록
-	public ArrayList<Board> getBoardList(int startRow, int page){
+	//게시글 목록(페이지 처리)
+	public ArrayList<Board> getBoardList(int page){
 		ArrayList<Board> boardList = new ArrayList<>();
 		try {
 			conn = JDBCUtil.getConnection();
@@ -23,7 +23,7 @@ public class BoardDAO {
 					+ "FROM (SELECT ROWNUM rn, t_board.* FROM t_board ORDER BY bnum DESC) "
 					+ "WHERE rn >= ? AND rn <= ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startRow);
+			pstmt.setInt(1, (page-1)*10 + 1); //시작행
 			pstmt.setInt(2, page*10);  //페이지당 게시글 수
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
