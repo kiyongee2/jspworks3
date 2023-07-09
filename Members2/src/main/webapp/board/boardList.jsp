@@ -25,12 +25,12 @@
 					<tr>
 						<td><c:out value="${board.bnum}" /></td>
 						<td>
-							<a href="/boardView.do?bnum=<c:out value='${board.bnum}' />">
+							<a href="/boardView.do?bnum=${board.bnum}">
 								<c:out value="${board.title}" /></a>
 						</td>
 						<%-- <td><c:out value="${board.regDate}" /></td> --%>
 						<td><fmt:formatDate value="${board.regDate}" 
-							pattern="yyyy-MM-dd hh:mm:ss" /></td>
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><c:out value="${board.hit}" /></td>
 						<td><c:out value="${board.memberId}" /></td>
 					</tr>

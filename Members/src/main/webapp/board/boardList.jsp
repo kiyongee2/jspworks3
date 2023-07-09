@@ -50,7 +50,9 @@
 				<c:forEach var="i" begin="1" end="${endPage}">
 					<!-- 현재 페이지가 i와 같으면 활성화(굵게) -->
 				    <c:if test="${currentPage == i}">
-						<a href="/boardList.do?pageNum=${i}"><span class='page'>${i}</span></a>
+						<a href="/boardList.do?pageNum=${i}">
+						<span class='page'>${i}</span>
+						</a>
 					</c:if>
 				    <c:if test="${currentPage != i}">
 						<a href="/boardList.do?pageNum=${i}">${i}</a>

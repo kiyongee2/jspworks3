@@ -21,6 +21,8 @@ import board.Board;
 import board.BoardDAO;
 import member.Member;
 import member.MemberDAO;
+import reply.Reply;
+import reply.ReplyDAO;
 
 @WebServlet("*.do")
 public class MainController extends HttpServlet {
@@ -28,10 +30,12 @@ public class MainController extends HttpServlet {
 	
 	MemberDAO memberDAO;
 	BoardDAO boardDAO;
+	ReplyDAO replyDAO;
 
 	public void init(ServletConfig config) throws ServletException {
 		memberDAO = new MemberDAO();
 		boardDAO = new BoardDAO();
+		replyDAO = new ReplyDAO();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -145,7 +149,6 @@ public class MainController extends HttpServlet {
 			/*마지막 페이지 = 페이지당 총 수 / 페이지당 행수
 				13 -> 2, 23 -> 3, 33 -> 4
 				13/10 -> 1.3 -> ceil(1.3) -> 2.0(올림)
-				23/10 -> 2.3 -> ceil(2.3) -> 3.0(올림)
 			*/
 			//out.println((double)total/10);
 			int endPage = (int)Math.ceil((double)total/pageSize);
@@ -192,9 +195,13 @@ public class MainController extends HttpServlet {
 			
 		}else if(command.equals("/boardView.do")) {  
 			int bnum = Integer.parseInt(request.getParameter("bnum"));
-			Board board = boardDAO.getBoard(bnum); //상세 보기
+			Board board = boardDAO.getBoard(bnum); //게시글 상세 보기
 			
-			request.setAttribute("board", board);  //모델 생성
+			//댓글 목록
+			ArrayList<Reply> replyList = replyDAO.getReplyList(bnum);
+			
+			request.setAttribute("board", board);  //게시글 모델 생성
+			request.setAttribute("replyList", replyList); //댓글 목록 모델
 			nextPage = "board/boardView.jsp";
 		}else if(command.equals("/boardDelete.do")) {
 			
@@ -221,15 +228,53 @@ public class MainController extends HttpServlet {
 			board.setBnum(bnum);
 			
 			boardDAO.boardUpdate(board);  //게시글 수정
+		}else if(command.equals("/addReply.do")) {
+			int bnum = Integer.parseInt(request.getParameter("bnum"));  //게시글 번호
+			String rcontent = request.getParameter("rcontent");  //댓글 내용
+			String replyer = request.getParameter("replyer");    //작성자
+			
+			Reply newReply = new Reply();
+			newReply.setBnum(bnum);
+			newReply.setRcontent(rcontent);
+			newReply.setReplyer(replyer);
+			
+			replyDAO.addReply(newReply);
+		}else if(command.equals("/deleteReply.do")) {
+			int rno = Integer.parseInt(request.getParameter("rno"));  //댓글 번호
+			
+			replyDAO.deleteReply(rno);
+		}else if(command.equals("/replyUpdateForm.do")) {
+			int rno = Integer.parseInt(request.getParameter("rno")); 
+			
+			Reply reply = replyDAO.getReply(rno);
+			request.setAttribute("reply", reply);
+			nextPage = "board/replyUpdateForm.jsp";
+		}else if(command.equals("/updateReply.do")) {
+			//데이터 수집
+			int bnum = Integer.parseInt(request.getParameter("bnum"));
+			int rno = Integer.parseInt(request.getParameter("rno"));
+			String rcontent = request.getParameter("rcontent");
+			String replyer = request.getParameter("replyer");
+			
+			//Reply 객체 생성
+			Reply updateReply = new Reply();
+			updateReply.setRno(rno);
+			updateReply.setRcontent(rcontent);
+			updateReply.setReplyer(replyer);
+			
+			replyDAO.updateReply(updateReply);
 		}
 		
-		//페이지 이동
+		//페이지 이동 - 리다이렉트, 포워딩
 		if(command.equals("/addBoard.do")) { //새로고침 중복 저장 문제 해결
 			response.sendRedirect("/boardList.do");
-		}else if(command.equals("/boardDelete.do")) {
+		}else if(command.equals("/boardDelete.do") || 
+				command.equals("/boardUpdateProcess.do")) {
 			response.sendRedirect("/boardList.do");
-		}else if(command.equals("/boardUpdateProcess.do")) {
-			response.sendRedirect("/boardList.do");
+		}else if(command.equals("/addReply.do") || command.equals("/deleteReply.do")
+				   || command.equals("/updateReply.do")) {
+			int bnum = Integer.parseInt(request.getParameter("bnum"));
+			response.sendRedirect("/boardView.do?bnum=" + bnum);
 		}else {
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher(nextPage);

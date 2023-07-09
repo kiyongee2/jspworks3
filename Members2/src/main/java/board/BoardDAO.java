@@ -14,13 +14,15 @@ public class BoardDAO {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	//게시글 목록
-	public ArrayList<Board> getBoardList(){
+	//게시글 목록(페이지 처리)
+	public ArrayList<Board> getBoardList(int startRow, int pageSize){
 		ArrayList<Board> boardList = new ArrayList<>();
-		conn = JDBCUtil.getConnection();
-		String sql = "SELECT * FROM t_board ORDER BY regdate DESC";
 		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM t_board ORDER BY bnum DESC LIMIT ?, ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow-1);
+			pstmt.setInt(2, pageSize);  //페이지당 게시글 수
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				Board board = new Board();
@@ -57,34 +59,6 @@ public class BoardDAO {
 			JDBCUtil.close(conn, pstmt, rs);
 		}
 		return total;
-	}
-	
-	//게시글 목록(페이지 처리)
-	public ArrayList<Board> getBoardList(int startRow, int pageSize){
-		ArrayList<Board> boardList = new ArrayList<>();
-		try {
-			conn = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM t_board ORDER BY bnum DESC LIMIT ?, ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startRow-1);
-			pstmt.setInt(2, pageSize);  //페이지당 게시글 수
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				Board board = new Board();
-				board.setBnum(rs.getInt("bnum"));
-				board.setTitle(rs.getString("title"));
-				board.setContent(rs.getString("content"));
-				board.setRegDate(rs.getTimestamp("regdate"));
-				board.setHit(rs.getInt("hit"));
-				board.setMemberId(rs.getString("memberid"));
-				boardList.add(board);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtil.close(conn, pstmt, rs);
-		}
-		return boardList;
 	}
 		
 	//글쓰기
