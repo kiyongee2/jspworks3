@@ -70,6 +70,7 @@ footer{height: 80px; border-top: 2px solid #222;}
 #detail table td button{padding: 5px 10px;}
 
 /* login 스타일 */
+.language{text-align: right;}
 #login {width: 400px; margin: 30px auto 100px;}
 #login form{margin: 30px auto;}
 #login form ul li{margin: 30px;}
