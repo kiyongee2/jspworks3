@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>게시글 상세 보기</title>
 <link rel="stylesheet" href="resources/css/style.css">
-<script src="https://kit.fontawesome.com/187dabceeb.js" crossorigin="anonymous"></script>
 </head>
 <%
 	/* 댓글 내용 줄바꿈 구현 */

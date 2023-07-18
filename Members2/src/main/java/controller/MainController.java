@@ -47,10 +47,10 @@ public class MainController extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		
 		String uri = request.getRequestURI();
-		System.out.println(uri);
+//		System.out.println(uri);
 		String command = uri.substring(uri.lastIndexOf("/"));
-		System.out.println(uri.lastIndexOf("/"));
-		System.out.println("command:" + command);
+//		System.out.println(uri.lastIndexOf("/"));
+//		System.out.println("command:" + command);
 		
 		String nextPage = null;
 		
@@ -59,7 +59,16 @@ public class MainController extends HttpServlet {
 		//출력 객체 생성
 		PrintWriter out = response.getWriter();
 		
-		if(command.equals("/memberList.do")) {
+		if(command.equals("/index.do")) {
+			//최근 게시글 3개 검색
+			ArrayList<Board> boardList = boardDAO.getBoardList();
+			int size = boardList.size();
+			Board[] newBoard = {boardList.get(size-1), boardList.get(size-2),
+					boardList.get(size-3)};
+			
+			request.setAttribute("boardList", newBoard);
+			nextPage = "/main.jsp";
+		}else if(command.equals("/memberList.do")) {
 			ArrayList<Member> memberList = memberDAO.getMemberList();
 			
 			request.setAttribute("memberList", memberList);
@@ -67,7 +76,7 @@ public class MainController extends HttpServlet {
 		}else if(command.equals("/memberForm.do")) {
 			nextPage = "/member/memberForm.jsp";
 		}else if(command.equals("/addMember.do")) {
-			//폼 데이터 받기
+			//폼 데이터 받기  
 			String memberId = request.getParameter("memberId");
 			String passwd = request.getParameter("passwd1");
 			String name = request.getParameter("name");
@@ -83,7 +92,7 @@ public class MainController extends HttpServlet {
 			
 			memberDAO.addMember(newMember);  //회원 가입 및 자동 로그인
 			
-			nextPage = "index.jsp";
+			nextPage = "/index.jsp";
 		}else if(command.equals("/memberView.do")) {
 			
 			String memberId = request.getParameter("memberId");
@@ -116,22 +125,68 @@ public class MainController extends HttpServlet {
 			}
 		}else if(command.equals("/logout.do")) {
 			session.invalidate();
-			nextPage = "/index.jsp";
-		}else if(command.equals("/memberDelete.do")) {
+			nextPage = "index.jsp";
+		}else if(command.equals("/deleteMember.do")) {
 			String memberId = request.getParameter("memberId");
 			
 			memberDAO.deleteMember(memberId);  //회원 삭제
+			session.invalidate();
 			
-			nextPage = "/memberList.do";
+			nextPage = "index.jsp";
 		}else if(command.equals("/memberEvent.do")) {
 			nextPage = "/member/memberEvent.jsp";
+		}else if(command.equals("/updateMemberForm.do")) {
+			String memberId = request.getParameter("memberId");
+			String language = request.getParameter("language");
+			
+			Member member = memberDAO.getMember(memberId);
+			
+			
+			request.setAttribute("member", member);
+			
+			request.setAttribute("language", language);
+			
+			nextPage = "/member/updateMemberForm.jsp";
+		}else if(command.equals("/updateMember.do")) {
+			//데이터 받기
+			String memberId = request.getParameter("memberId");
+			String passwd = request.getParameter("passwd1");
+			String name = request.getParameter("name");
+			String gender = request.getParameter("gender");
+			
+			//회원 객체 생성
+			Member member = new Member();
+			member.setMemberId(memberId);
+			member.setPasswd(passwd);
+			member.setName(name);
+			member.setGender(gender);
+			
+			memberDAO.updateMember(member);  //회원 수정
 		}
 		
 		//게시글 목록
 		if(command.equals("/boardList.do")) {
+			//검색 처리
+			String _field = request.getParameter("field");
+			String _kw = request.getParameter("kw");
+			
+			//쿼리값이 전달되지 않을 경우 기본값 사용
+			String field = "title";
+			if(_field != null) {
+				field = _field;
+			}
+			
+			String kw = "";
+			if(_kw != null) {
+				kw = _kw;
+			}
+			
+			//ArrayList<Board> boardList = boardDAO.getBoardList(field, kw);
+			
+			//페이지 처리
 			String pageNum = request.getParameter("pageNum");
 			if(pageNum == null){
-				pageNum = "1";
+				pageNum = "1";  //1은 문자형 임
 			}
 			int currentPage = Integer.parseInt(pageNum);  //현재 페이지
 			
@@ -154,13 +209,15 @@ public class MainController extends HttpServlet {
 			int endPage = (int)Math.ceil((double)total/pageSize);
 			
 			//dao - 게시글 목록 메소드 호출
-			ArrayList<Board> boardList = boardDAO.getBoardList(startRow, pageSize);
+			ArrayList<Board> boardList = boardDAO.getBoardList(field, kw, startRow, pageSize);
 			
 			//model - 회원 목록, 현재, 시작, 마지막 페이지
 			request.setAttribute("boardList", boardList);
 			request.setAttribute("currentPage", currentPage);
 			request.setAttribute("startPage", startPage);
 			request.setAttribute("endPage", endPage);
+			request.setAttribute("field", field);
+			request.setAttribute("kw", kw);
 			
 			nextPage = "board/boardList.jsp";
 		}else if(command.equals("/boardForm.do")) {  //글쓰기 폼
@@ -266,7 +323,10 @@ public class MainController extends HttpServlet {
 		}
 		
 		//페이지 이동 - 리다이렉트, 포워딩
-		if(command.equals("/addBoard.do")) { //새로고침 중복 저장 문제 해결
+		if(command.equals("/updateMember.do")) {
+			String memberId = request.getParameter("memberId");
+			response.sendRedirect("/memberView.do?memberId=" + memberId);
+		}else if(command.equals("/addBoard.do")) { //새로고침 중복 저장 문제 해결
 			response.sendRedirect("/boardList.do");
 		}else if(command.equals("/boardDelete.do") || 
 				command.equals("/boardUpdateProcess.do")) {
@@ -275,7 +335,8 @@ public class MainController extends HttpServlet {
 				   || command.equals("/updateReply.do")) {
 			int bnum = Integer.parseInt(request.getParameter("bnum"));
 			response.sendRedirect("/boardView.do?bnum=" + bnum);
-		}else {
+		}
+		else {
 			RequestDispatcher dispatcher = 
 					request.getRequestDispatcher(nextPage);
 			

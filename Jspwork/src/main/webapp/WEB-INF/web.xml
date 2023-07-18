@@ -34,7 +34,7 @@
   	<filter-class>filter.LogFileFilter</filter-class>
   	<init-param>
   		<param-name>filename</param-name>
-  		<param-value>C:/logs/Moniter2.log</param-value>
+  		<param-value>C:/logs/monitor.log</param-value>
   	</init-param>
   </filter>
   <filter-mapping>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,15 +10,8 @@
 <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
-	<jsp:include page="header.jsp" />
-	<div id="container">
-		<section id="main">
-            <h1>안녕하세요~ 강남 Community입니다.</h1>
-            <div class="img1">
-                <img src="resources/images/gangnam.png" alt="배경 사진">
-            </div>
-        </section>
-	</div>
-	<jsp:include page="footer.jsp" />
+	<script type="text/javascript">
+		location.href="/index.do";
+	</script>
 </body>
 </html>

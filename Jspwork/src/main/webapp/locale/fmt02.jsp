@@ -11,9 +11,11 @@
 	
 	<fmt:setLocale value="${param.language}"/>
 	<fmt:setBundle basename="bundle.message"/>
+	<%-- <fmt:bundle basename="bundle.message"> --%>
 	
 	<a href="?language=ko">한국어</a> | <a href="?language=en">영어</a>
 	<p>제목 : <fmt:message key="title" />
 	<p>이름 : <fmt:message key="username" />
+	<%-- </fmt:bundle> --%>
 </body>
 </html>

@@ -116,6 +116,24 @@ public class MemberDAO {
 		}
 	}
 	
+	//회원 수정
+	public void updateMember(Member member) {
+		conn = JDBCUtil.getConnection();
+		String sql = "UPDATE t_member SET passwd=?, name=?, gender=?  WHERE memberid = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getPasswd());
+			pstmt.setString(2, member.getName());
+			pstmt.setString(3, member.getGender());
+			pstmt.setString(4, member.getMemberId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt, rs);
+		}
+	}
+	
 	//ID 중복 체크
 	public int duplicatedID(String memberId) {
 		int result = 0;

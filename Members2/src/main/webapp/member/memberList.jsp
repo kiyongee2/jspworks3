@@ -46,7 +46,7 @@
 						<td><fmt:formatDate value="${member.joinDate}" 
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td>
-							<a href="/memberDelete.do?memberId=${member.memberId}"
+							<a href="/deleteMember.do?memberId=${member.memberId}"
 							   onclick="return confirm('정말로 삭제하시겠습니까?')">
 								<button type="button">삭제</button>
 							</a>

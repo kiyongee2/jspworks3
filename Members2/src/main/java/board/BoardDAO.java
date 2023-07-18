@@ -15,6 +15,59 @@ public class BoardDAO {
 	private ResultSet rs = null;
 	
 	//게시글 목록(페이지 처리)
+	public ArrayList<Board> getBoardList(){
+		ArrayList<Board> boardList = new ArrayList<>();
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM t_board ORDER BY bnum";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Board board = new Board();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setContent(rs.getString("content"));
+				board.setRegDate(rs.getTimestamp("regdate"));
+				board.setHit(rs.getInt("hit"));
+				board.setMemberId(rs.getString("memberid"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt, rs);
+		}
+		return boardList;
+	}
+	
+	//게시글 목록(검색)
+	public ArrayList<Board> getBoardList(String field, String kw){
+		ArrayList<Board> boardList = new ArrayList<>();
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM t_board WHERE " + field + " LIKE ? ORDER BY bnum";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+kw+"%");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Board board = new Board();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setContent(rs.getString("content"));
+				board.setRegDate(rs.getTimestamp("regdate"));
+				board.setHit(rs.getInt("hit"));
+				board.setMemberId(rs.getString("memberid"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt, rs);
+		}
+		return boardList;
+	}
+	
+	//게시글 목록(페이지 처리)
 	public ArrayList<Board> getBoardList(int startRow, int pageSize){
 		ArrayList<Board> boardList = new ArrayList<>();
 		try {
@@ -42,6 +95,36 @@ public class BoardDAO {
 		return boardList;
 	}
 	
+	//게시글 목록(검색 및 페이지 처리)
+	public ArrayList<Board> getBoardList(String field, String kw, int startRow, int pageSize){
+		ArrayList<Board> boardList = new ArrayList<>();
+		try {
+			conn = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM t_board WHERE " + field + " LIKE ? "
+					+ "ORDER BY bnum DESC LIMIT ?, ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+kw+"%");
+			pstmt.setInt(2, startRow-1);
+			pstmt.setInt(3, pageSize);  //페이지당 게시글 수
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Board board = new Board();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setContent(rs.getString("content"));
+				board.setRegDate(rs.getTimestamp("regdate"));
+				board.setHit(rs.getInt("hit"));
+				board.setMemberId(rs.getString("memberid"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt, rs);
+		}
+		return boardList;
+	}
+
 	//게시글 총 개수
 	public int getBoardCount() {
 		int total = 0;

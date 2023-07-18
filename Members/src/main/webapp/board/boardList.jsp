@@ -14,6 +14,17 @@
 	<div id="container">
 		<section id="boardlist">
 			<h2>게시글 목록</h2>
+			<!-- 검색 폼 -->
+			<form action="" method="get" class="search_form">
+				<select name="field">
+					<option value="title">제목</option>
+					<option value="memberId">작성자</option>
+				</select>
+				<input type="text" name="text">
+				<button type="submit">검색</button>
+			</form>
+			
+			<!-- 게시글 목록 -->
 			<table>
 				<thead>
 					<tr>

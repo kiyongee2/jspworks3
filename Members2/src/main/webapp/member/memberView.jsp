@@ -23,7 +23,7 @@
 	              </tr>
 	              <tr>
 	              	  <td><label>비밀번호</label></td>
-	                  <td><input type="text" name="passwd" value="${member.passwd }" 
+	                  <td><input type="password" name="passwd" value="${member.passwd }" 
 	                  				readonly></td>
 	              </tr>
 	              <tr>
@@ -34,11 +34,11 @@
 	              <tr>
 	                  <td><label>성별</label></td>
 	                  <td>
-	                  	 <c:if test="${member.gender == '남'}">
+	                  	 <c:if test="${member.gender eq '남'}">
 		                     <input type="radio" name="gender" value="남" checked>남
 		          			 <input type="radio" name="gender" value="여">여 
 	          			 </c:if>
-	                  	 <c:if test="${member.gender == '여'}">
+	                  	 <c:if test="${member.gender eq '여'}">
 		                     <input type="radio" name="gender" value="남">남
 		          			 <input type="radio" name="gender" value="여" checked>여 
 	          			 </c:if>
@@ -47,11 +47,20 @@
 	              <tr>
 	                  <td><label>가입일</label></td>
 	                  <td><fmt:formatDate value="${member.joinDate}" 
-							pattern="yyyy-MM-dd hh:mm:ss" /></td>
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
 	              </tr>
 	              <tr>
-	              	<td colspan="2"><a href="/memberList.do">
-	              		<button type="button">목록</button></a>
+	              	<td colspan="2">
+	              		<a href="/memberList.do">
+	              			<button type="button">목록보기</button>
+	              		</a>
+	              		<a href="/deleteMember.do?memberId=${member.memberId}"
+	              		   onclick="return confirm('정말로 삭제하시겠습니까?')">
+	              			<button type="button">회원탈퇴</button>
+	              		</a>
+	              		<a href="/updateMemberForm.do?memberId=${member.memberId}">
+	              			<button type="button">회원수정</button>
+	              		</a>
 	              	</td>
 	              </tr>
 	            </tbody>
