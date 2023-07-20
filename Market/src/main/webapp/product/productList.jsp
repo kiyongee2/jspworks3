@@ -20,7 +20,7 @@
 				<h3>${product.pname}</h3>
 				<p>${product.description}
 				<p>${product.unitPrice}
-				<p><a href="/productView.do?productId=${product.productId}" 
+				<p><a href="/productInfo.do?productId=${product.productId}" 
 				   class="btn btn-secondary" role="button">상세 정보 &raquo;</a>
 			</div>
 			</c:forEach>

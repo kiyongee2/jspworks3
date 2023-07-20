@@ -8,10 +8,10 @@ import java.sql.SQLException;
 
 public class JDBCUtil {
 	
-	private static String driverClass = "com.mysql.cj.jdbc.Driver";    //mysql 드라이버
-	private static String url = "jdbc:mysql://localhost:3306/javaweb"; //db 경로 
-	private static String username = "jweb";                           //사용자(user 계정)
-	private static String password = "54321";                          //패스워드
+	private static String driverClass = "com.mysql.cj.jdbc.Driver";     //mysql 드라이버
+	private static String url = "jdbc:mysql://localhost:3306/javaweb";  //db 경로 
+	private static String username = "jweb";                            //사용자(user 계정)
+	private static String password = "54321";                           //패스워드
 	
 	//DB 연결 메서드
 	public static Connection getConnection() {

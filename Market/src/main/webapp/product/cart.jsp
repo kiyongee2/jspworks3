@@ -17,10 +17,10 @@
 			<table style="width: 100%">
 				<tr>
 					<td align="left">
-						<a href="./deleteCart.jsp" class="btn btn-danger">삭제하기</a>
+						<a href="/deleteCart.do" class="btn btn-danger">삭제하기</a>
 					</td>
 					<td align="right">
-						<a href="./shippingInfo.jsp?cartId=" class="btn btn-success">주문하기</a>
+						<a href="/shippingInfo.do?cartId=${cartId}" class="btn btn-success">주문하기</a>
 					</td>
 				</tr>
 			</table>
@@ -36,7 +36,8 @@
 					<td>${product.unitPrice}</td>
 					<td>${product.quantity}</td>
 					<td>${product.unitPrice * product.quantity}</td>
-					<td><a href="/removeCart.do?productId=${product.productId}" class="badge bg-dark">삭제</a></td>
+					<td><a href="/removeCart.do?productId=${product.productId}" 
+							class="badge bg-dark">삭제</a></td>
 				</tr>
 				</c:forEach>
 				<tr>
