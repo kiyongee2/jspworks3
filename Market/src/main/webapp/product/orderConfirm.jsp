@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -46,9 +46,9 @@
 					<td class="text-center text-danger"><strong>${sum}</strong></td>
 				</tr>
 			</table>
-			<a href="/shippingInfo.do?cartId=" class="btn btn-secondary"> 이전 </a>
+			<%-- <a href="/shippingInfo.do?cartId=${cartId}" class="btn btn-secondary"> 이전 </a> --%>
 			<a href="/thanksCustomer.do" class="btn btn-success"> 주문 완료 </a>
-			<a href="/checkOutCancelled.do" class="btn btn-secondary"> 취소 </a>
+			<a href="/checkOutCancel.do" class="btn btn-secondary"> 취소 </a>
 		</div>
 	</div>
 	<jsp:include page="../footer.jsp" />

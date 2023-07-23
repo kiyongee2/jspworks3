@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>주소록 등록</title>
-<link rel="stylesheet" href="../resources/css/style.css">
 </head>
 <body>
 	<div id="container">

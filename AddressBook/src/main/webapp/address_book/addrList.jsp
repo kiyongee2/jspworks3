@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>주소록 목록</title>
-<link rel="stylesheet" href="../resources/css/style.css">
 </head>
 <jsp:useBean id="abDAO" class="address.AddrBookDAO" scope="application" />
 <body>

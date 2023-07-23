@@ -5,6 +5,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -20,7 +21,9 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import dao.MemberDAO;
 import dao.ProductDAO;
+import vo.Member;
 import vo.Product;
 
 
@@ -29,9 +32,11 @@ public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 12L;
 	
 	ProductDAO productDAO = null;
+	MemberDAO memberDAO = null;
 
 	public void init(ServletConfig config) throws ServletException {
 		productDAO = new ProductDAO();
+		memberDAO = new MemberDAO();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,7 +57,7 @@ public class MainController extends HttpServlet {
 		
 		if(command.equals("/productList.do")) { //상품 목록 
 			
-			ArrayList<Product> productList = productDAO.getProductList();
+			List<Product> productList = productDAO.getProductList();
 			
 			request.setAttribute("productList", productList);
 			
@@ -109,7 +114,7 @@ public class MainController extends HttpServlet {
 		
 			nextPage = "/productList.do";
 		}else if(command.equals("/editProduct.do")) { //상품 편집 페이지
-			ArrayList<Product> productList = productDAO.getProductList();
+			List<Product> productList = productDAO.getProductList();
 			
 			String edit = request.getParameter("edit");
 			
@@ -117,11 +122,71 @@ public class MainController extends HttpServlet {
 			request.setAttribute("edit", edit);
 			
 			nextPage = "/product/editProduct.jsp";
-		}else if(command.equals("/addCart.do")) { //장바구니에 담기 처리	
+		}else if(command.equals("/deleteProduct.do")) { //상품 삭제 후 상품 삭제 페이지
+			String id = request.getParameter("productId");
+			String edit = request.getParameter("edit");
+			
+			productDAO.deleteProduct(id);
+			
+			//상품 삭제 페이지로 이동
+			nextPage = "/editProduct.do?edit=delete";
+		}else if(command.equals("/updateProductForm.do")) {
+			String id = request.getParameter("productId");
+			Product product = productDAO.getProduct(id);
+			
+			request.setAttribute("product", product);
+			nextPage = "/product/updateProductForm.jsp";
+		}else if(command.equals("/updateProduct.do")) {
+			String realFolder = "C:/Users/kiyon/git/jspworks3/Market/src/main/webapp/upload";
+
+			MultipartRequest multi = new MultipartRequest(request, realFolder, 5*1024*1024,
+					"utf-8", new DefaultFileRenamePolicy());
+			
+			//name 속성 가져오기(주의! multi를 사용)
+			String productId = multi.getParameter("productId");
+			String pname = multi.getParameter("pname");
+			int unitPrice = Integer.parseInt(multi.getParameter("unitPrice"));
+			String description = multi.getParameter("description");
+			String category = multi.getParameter("category");
+			String manufacturer = multi.getParameter("manufacturer");
+			long unitsInStock = Long.parseLong(multi.getParameter("unitsInStock"));
+			String condition = multi.getParameter("condition");
+			
+			//productImage 속성 가져옴
+			Enumeration<String> files = multi.getFileNames();
+			String name = "";
+			String productImage = "";
+			if(files.hasMoreElements()) {
+				name = (String)files.nextElement();
+				productImage = multi.getFilesystemName(name);
+			}
+			
+			//Product 객체 생성
+			Product upProduct = new Product();
+			upProduct.setProductId(productId);
+			upProduct.setPname(pname);
+			upProduct.setUnitPrice(unitPrice);
+			upProduct.setDescription(description);
+			upProduct.setCategory(category);
+			upProduct.setManufacturer(manufacturer);
+			upProduct.setUnitsInStock(unitsInStock);
+			upProduct.setCondition(condition);
+			upProduct.setProductImage(productImage);
+			
+			if(productImage != null) { //상품 이미지 수정을 할 경우
+				productDAO.updateProduct(upProduct);
+			}else {
+				productDAO.updateProductNoImage(upProduct);
+			}
+			
+			nextPage = "/editProduct.do?edit=update";
+		}
+		
+		else if(command.equals("/addCart.do")) { //장바구니에 담기 처리	
 			String id = request.getParameter("productId");
 			
-			//장바구니에 담기
-			ArrayList<Product> goodsList = productDAO.getProductList();
+			//상품 목록 리스트를 생성하고 상품을 저장함
+			List<Product> goodsList = productDAO.getProductList();
 			Product goods = new Product();
 			
 			for(int i=0; i<goodsList.size(); i++) {
@@ -131,7 +196,7 @@ public class MainController extends HttpServlet {
 			}
 			
 			//요청 아이디의 상품을 담은 장바구니를 초기화 함
-			ArrayList<Product> list = (ArrayList<Product>)session.getAttribute("cartlist");
+			List<Product> list = (ArrayList<Product>)session.getAttribute("cartlist");
 			if(list == null) {
 				list = new ArrayList<>();
 				session.setAttribute("cartlist", list);	 //장바구니 세션 발급
@@ -144,7 +209,7 @@ public class MainController extends HttpServlet {
 			for(int i=0; i<list.size(); i++){
 				goodsQnt = list.get(i);
 				if(goodsQnt.getProductId().equals(id)){
-					cnt++;	//해당 아이디와 같은 품목이면 1증가
+					cnt++;	//횟수 1증가
 					int orderQuantity = goodsQnt.getQuantity() + 1;	//주문 수량 합계
 					goodsQnt.setQuantity(orderQuantity);
 				}
@@ -292,7 +357,7 @@ public class MainController extends HttpServlet {
 			request.setAttribute("cartId", cartId);
 			
 			nextPage = "/product/orderConfirm.jsp";
-		}else if(command.equals("/thanksCustomer.do")) {
+		}else if(command.equals("/thanksCustomer.do")) { //주문 완료 페이지 요청
 			String shipping_cartId = "";
 			String shipping_shippingDate = "";
 			
@@ -312,9 +377,107 @@ public class MainController extends HttpServlet {
 			request.setAttribute("shipping_cartId", shipping_cartId);
 			request.setAttribute("shipping_shippingDate", shipping_shippingDate);
 			
+			//모든 세션 삭제
+			session.invalidate();
+
+		    //모든 쿠키 삭제
+		    if(cookies != null){
+				for(int i=0; i<cookies.length; i++){
+					Cookie cookie = cookies[i];
+					String name = cookie.getName();
+					if(name.equals("Shipping_cartId"))
+						cookie.setMaxAge(0);   //유효 기간을 0 - 삭제
+					if(name.equals("Shipping_name"))
+						cookie.setMaxAge(0);
+					if(name.equals("Shipping_shippingDate"))
+						cookie.setMaxAge(0);
+					if(name.equals("Shipping_country"))
+						cookie.setMaxAge(0);
+					if(name.equals("Shipping_zipCode"))
+						cookie.setMaxAge(0);
+					if(name.equals("Shipping_addressName"))
+						cookie.setMaxAge(0);
+					
+					//클라이언트 컴에 삭제된 쿠키 보내줌
+					response.addCookie(cookie);
+				}
+			}
+			
+		    //주문 완료 페이지 이동
 			nextPage = "/product/thanksCustomer.jsp";
+		}else if(command.equals("/checkOutCancel.do")) { //주문 취소 페이지 요청
+			nextPage = "/product/checkOutCancel.jsp";
 		}
 		
+		//회원 Control
+		if(command.equals("/memberList.do")) { //회원 목록
+			List<Member> memberList = memberDAO.getMemberList();
+			request.setAttribute("memberList", memberList);
+			nextPage = "/member/memberList.jsp";
+		} else if(command.equals("/memberForm.do")) { //회원 가입 폼 요청
+			nextPage = "/member/memberForm.jsp";
+		} else if(command.equals("/addMember.do")) {  //회원 가입 처리
+			//폼 데이터 받기  
+			String mid = request.getParameter("mid");
+			String passwd = request.getParameter("passwd1");
+			String mname = request.getParameter("mname");
+			String gender = request.getParameter("gender");
+			//birth
+			String year = request.getParameter("birthyy");
+			String month = request.getParameterValues("birthmm")[0];
+			String day = request.getParameter("birthdd");
+			String birth = year + "/" + month + "/" + day;
+			//email
+			String email1 = request.getParameter("email1");
+			String email2 = request.getParameterValues("email2")[0];
+			String email = email1 + "@" + email2;
+	
+			String phone = request.getParameter("phone");
+			String address = request.getParameter("address");
+			
+			Member newMember = new Member();  //회원 객체 생성
+			newMember.setMid(mid);
+			newMember.setPasswd(passwd);
+			newMember.setMname(mname);
+			newMember.setGender(gender);
+			newMember.setBirth(birth);
+			newMember.setPhone(phone);
+			newMember.setEmail(email);
+			newMember.setAddress(address);
+			
+			session.setAttribute("sessionId", mid);  //세션 발급
+			
+			memberDAO.addMember(newMember);  //회원 가입 및 자동 로그인
+			
+			nextPage="index.jsp";
+		}else if(command.equals("/loginForm.do")) { //로그인 페이지 요청
+			nextPage = "/member/loginForm.jsp";
+		}else if(command.equals("/processLogin.do")) { //로그인 처리
+			String mid = request.getParameter("mid");
+			String passwd = request.getParameter("passwd");
+			
+			Member member = new Member();
+			member.setMid(mid);
+			member.setPasswd(passwd);
+			
+			boolean result = memberDAO.checkLogin(member);
+			if(result) {
+				session.setAttribute("sessionId", mid);
+				nextPage = "index.jsp";
+			}else {
+				String error = "아이디나 비밀번호를 확인해 주세요";
+				request.setAttribute("error", error);
+				nextPage = "/loginForm.do";
+			}
+		}else if(command.equals("/logout.do")) { //로그아웃
+			session.invalidate();
+			nextPage = "index.jsp";
+		}else if(command.equals("/memberInfo.do")) {  //나의 정보
+			String mid = request.getParameter("mid");
+			Member member = memberDAO.getMember(mid);
+			request.setAttribute("member", member);
+			nextPage = "/member/memberInfo.jsp";
+		}
 		
 		//페이지 이동 - 포워딩
 		if(command.equals("/addCart.do")) {

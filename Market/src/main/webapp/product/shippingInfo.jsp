@@ -51,7 +51,7 @@
 					<a href="/cart.do?cartId=${cartId}" 
 					   class="btn btn-secondary">이전</a>
 					<input type="submit" value="등록" class="btn btn-primary">
-					<a href="/checkOutCancelled.do" class="btn btn-secondary">취소</a>
+					<a href="/checkOutCancel.do" class="btn btn-secondary">취소</a>
 				</div>
 			</div>
 		</form>

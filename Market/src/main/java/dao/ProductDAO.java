@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import common.JDBCUtil;
 import vo.Product;
@@ -15,8 +16,8 @@ public class ProductDAO {
 	ResultSet rs = null;
 	
 	//상품 목록 보기
-	public ArrayList<Product> getProductList(){
-		ArrayList<Product> productList = new ArrayList<>();
+	public List<Product> getProductList(){
+		List<Product> productList = new ArrayList<>();
 		conn = JDBCUtil.getConnection();        //mysql에 연결
 		String sql = "SELECT * FROM product";   //조회 쿼리문
 		try {
@@ -95,5 +96,69 @@ public class ProductDAO {
 			JDBCUtil.close(conn, pstmt, rs);
 		}
 		return product;
+	}
+	
+	//상품 삭제
+	public void deleteProduct(String productId) {
+		conn = JDBCUtil.getConnection();
+		String sql = "DELETE FROM product WHERE p_id=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, productId);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt);
+		}
+	}
+	
+	//상품 수정(이미지 있는 경우)
+	public void updateProduct(Product product) {
+		conn = JDBCUtil.getConnection();
+		String sql = "UPDATE product SET p_name=?, p_unitPrice=?, p_description=?, "
+				+ "p_category=?, p_manufacturer=?, p_unitsInStock=?, p_condition=?, "
+				+ "p_productImage=? WHERE p_id=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, product.getPname());
+			pstmt.setInt(2, product.getUnitPrice());
+			pstmt.setString(3, product.getDescription());
+			pstmt.setString(4, product.getCategory());
+			pstmt.setString(5, product.getManufacturer());
+			pstmt.setLong(6, product.getUnitsInStock());
+			pstmt.setString(7, product.getCondition());
+			pstmt.setString(8, product.getProductImage());
+			pstmt.setString(9, product.getProductId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt);
+		}
+	}
+	
+	//상품 수정(이미지 없는 경우)
+	public void updateProductNoImage(Product product) {
+		conn = JDBCUtil.getConnection();
+		String sql = "UPDATE product SET p_name=?, p_unitPrice=?, p_description=?, "
+				+ "p_category=?, p_manufacturer=?, p_unitsInStock=?, p_condition=? "
+				+ "WHERE p_id=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, product.getPname());
+			pstmt.setInt(2, product.getUnitPrice());
+			pstmt.setString(3, product.getDescription());
+			pstmt.setString(4, product.getCategory());
+			pstmt.setString(5, product.getManufacturer());
+			pstmt.setLong(6, product.getUnitsInStock());
+			pstmt.setString(7, product.getCondition());
+			pstmt.setString(8, product.getProductId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt);
+		}
 	}
 }

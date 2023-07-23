@@ -3,7 +3,6 @@
 <% request.setCharacterEncoding("utf-8"); %>
 
 <title>주소 추가</title>
-<link rel="stylesheet" href="../resources/css/style.css">
 <jsp:useBean id="addrBook" class="address.AddrBook" />
 <jsp:setProperty property="username" name="addrBook"/>
 <jsp:setProperty property="tel" name="addrBook"/>

@@ -16,10 +16,17 @@
 		<div class="row mx-5" align="center">
 			<c:forEach items="${productList}" var="product">
 			<div class="col-4">
-				<img src="upload/${product.productImage}" style="width:100%">
-				<h3>${product.pname}</h3>
-				<p>${product.description}
-				<p>${product.unitPrice}
+				<c:if test="${not empty product.productImage}">
+					<img src="upload/${product.productImage}" style="width:100%">
+					<h3>${product.pname}</h3>
+					<p>${product.description}
+					<p>${product.unitPrice}
+				</c:if>
+				<c:if test="${empty product.productImage}">
+					<h3>${product.pname}</h3>
+					<p>${product.description}
+					<p>${product.unitPrice}
+				</c:if>
 				<p><a href="/productInfo.do?productId=${product.productId}" 
 				   class="btn btn-secondary" role="button">상세 정보 &raquo;</a>
 			</div>

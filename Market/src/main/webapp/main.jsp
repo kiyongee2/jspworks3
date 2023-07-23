@@ -12,8 +12,6 @@
 <body>
 	<jsp:include page="header.jsp" />
 	<div class="container my-3">
-		<h2 class="text-center">Green Market에 오신걸 환영합니다.</h2>
-		
 		<div class="card my-3">
   			<img src="resources/images/main_img.png" class="card-img-top" alt="...">
 			<div class="card-body">

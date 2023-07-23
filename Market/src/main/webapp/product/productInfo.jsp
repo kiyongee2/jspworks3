@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page errorPage="noProduct.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -39,8 +40,8 @@
 					<p>
 					 	<form action="/addCart.do?productId=${product.productId}" 
 					 			method="post" name="addForm">
-					 		<a href="#" onclick="addToCart()" class="btn btn-info">상품 주문 &raquo; </a>
-					 		<a href="/cart.do" class="btn btn-warning">장바구니 &raquo;</a>
+					 		<a href="#" onclick="addToCart()" class="btn btn-info">상품 주문</a>
+					 		<a href="/cart.do" class="btn btn-warning">장바구니</a>
 							<a href="/productList.do"
 						      class="btn btn-secondary">상품 목록 &raquo;</a>
 						</form>
